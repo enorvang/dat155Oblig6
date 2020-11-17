@@ -23,6 +23,7 @@ import {
   ObjectSpaceNormalMap,
   Vector2,
   LOD,
+  Fog,
 } from "./lib/three.module.js";
 import Utilities from "./lib/Utilities.js";
 import Ocean from "./ocean/Ocean.js";
@@ -46,7 +47,8 @@ async function main() {
   // axesHelper.position.y = 25;
   // scene.add(axesHelper);
 
-  // scene.fog = new FogExp2(0x808080, 0.0035);
+  // scene.fog = new FogExp2(0x808080, 0.0065);
+  // scene.fog = new Fog(0x808080, 0.1, 200);
 
   /**
    * Initialize the camera
@@ -133,9 +135,9 @@ async function main() {
 
   //Set up shadow properties for the light
   directionalLight.shadow.mapSize.width = 2048;
-  directionalLight.shadow.mapSize.height = 2048;
-  directionalLight.shadow.camera.near = 0.1;
-  directionalLight.shadow.camera.far = 3500;
+  directionalLight.shadow.mapSize.height = 1024;
+  directionalLight.shadow.camera.near = 10;
+  directionalLight.shadow.camera.far = 2500;
   directionalLight.shadow.bias = -0.0001;
   let d = 500;
 

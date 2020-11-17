@@ -19,7 +19,7 @@ export default class Ocean extends Water{
       }),
       alpha: 1.0,
       distortionScale: 3.7,
-      fog: true,
+      fog: false,
     }
 
     super(geometry, options);
