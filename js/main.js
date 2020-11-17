@@ -13,7 +13,7 @@ import {
   HemisphereLightHelper,
   MeshBasicMaterial,
   Mesh,
-  SphereGeometry,
+  SphereBufferGeometry,
   FogExp2,
   TextureLoader,
   CubeTextureLoader,
@@ -206,7 +206,7 @@ async function main() {
 
 
   //A node for objects to orbit around.
-  const orbitNode = new Mesh(new SphereGeometry(), new MeshBasicMaterial());
+  const orbitNode = new Mesh(new SphereBufferGeometry(), new MeshBasicMaterial());
   scene.add(orbitNode);
 
   /**
