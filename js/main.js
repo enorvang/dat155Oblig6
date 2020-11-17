@@ -222,7 +222,7 @@ async function main() {
    * Add clouds to the scene.
    */
   const clouds = new Clouds(scene);
-  clouds.generateBillboardClouds();
+  clouds.generateBillboardClouds(50);
 
   /**
    * Generate and add trees.

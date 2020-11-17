@@ -7,9 +7,9 @@ export default class Clouds {
   }
 
 
-  generateBillboardClouds() {
+  generateBillboardClouds(numClouds) {
     const loader = new TextureLoader();
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < numClouds; i++) {
       loader.load("resources/textures/cloud.png", (texture) => {
         let material = new SpriteMaterial({
           map: texture,
@@ -17,7 +17,6 @@ export default class Clouds {
           fog: false,
         });
         let skyPlane = new Sprite(material);
-        skyPlane.castShadow = true;
 
         //Generate random positions and scale
         let posX = this.betweenRandomValues(-2000, 2000);
