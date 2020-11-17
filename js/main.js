@@ -359,6 +359,7 @@ async function main() {
       e.preventDefault();
     }
   });
+  let glitch = true;
 
   const velocity = new Vector3(0.0, 0.0, 0.0);
 
@@ -438,10 +439,13 @@ async function main() {
     // moon.rotateMoon([0.0, 0.0025, 0.0]);
 
     // render scene:
-    if(splineIndex < 100){
+    if(glitch){
       composer.render()
     }else {
       renderer.render(scene, camera);
+    }
+    if(splineIndex > 100){
+      glitch = false
     }
 
     requestAnimationFrame(loop);
