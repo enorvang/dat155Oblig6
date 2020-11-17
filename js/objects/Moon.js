@@ -3,7 +3,7 @@
 import {
   Mesh,
   MeshPhongMaterial,
-  SphereGeometry,
+  SphereBufferGeometry,
 } from "../lib/three.module.js";
 
 export default class Moon extends Mesh {
@@ -15,7 +15,7 @@ export default class Moon extends Mesh {
     positions = [1, 50, -20],
     bumpMap,
   }) {
-    const geometry = new SphereGeometry(radius, widthSegments, heightSegments);
+    const geometry = new SphereBufferGeometry(radius, widthSegments, heightSegments);
 
     const material = new MeshPhongMaterial({
       map: texture,
