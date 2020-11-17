@@ -19,9 +19,9 @@ export default class Clouds {
         let skyPlane = new Sprite(material);
 
         //Generate random positions and scale
-        let posX = this.betweenRandomValues(-2000, 2000);
-        var posY = this.betweenRandomValues(200, 500);
-        let posZ = this.betweenRandomValues(-500, -1000);
+        let posX = Utilities.betweenRandomValues(-2000, 2000);
+        var posY = Utilities.betweenRandomValues(200, 500);
+        let posZ = Utilities.betweenRandomValues(-500, -1000);
 
         //Set positions and scale
         skyPlane.position.set(posX, posY, posZ);
@@ -32,7 +32,4 @@ export default class Clouds {
       });
     }
   }
-
-  betweenRandomValues = (min, max) => Math.random() * (max - min) + min;
-
 }
