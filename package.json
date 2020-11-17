@@ -1,0 +1,23 @@
+{
+  "name": "dat155-oblig6-threejs-scene-master",
+  "version": "1.0.0",
+  "description": "The final mandatory exercise of the course DAT155 at Bergen University College.",
+  "main": "main.js",
+  "dependencies": {
+    "three": "^0.122.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/enorvang/dat155Oblig6.git"
+  },
+  "author": "Espen Norvang, Morten Sund, Bendik Simonsen, Niklas Vatshelle Raa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enorvang/dat155Oblig6/issues"
+  },
+  "homepage": "https://github.com/enorvang/dat155Oblig6#readme"
+}

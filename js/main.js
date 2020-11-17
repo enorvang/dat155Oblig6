@@ -37,12 +37,6 @@ import Moon from "./objects/Moon.js";
 import {EffectComposer} from "../node_modules/three/examples/jsm/postprocessing/EffectComposer.js"
 import { RenderPass } from '../node_modules/three/examples/jsm/postprocessing/RenderPass.js';
 import { GlitchPass } from '../node_modules/three/examples/jsm/postprocessing/GlitchPass.js';
-import { ShaderPass } from '../node_modules/three/examples/jsm/postprocessing/ShaderPass.js';
-import { PixelShader } from '../node_modules/three/examples/jsm/shaders/PixelShader.js';
-import { UnrealBloomPass } from '../node_modules/three/examples/jsm/postprocessing/UnrealBloomPass.js';
-import { RGBShiftShader } from '../node_modules/three/examples/jsm/shaders/RGBShiftShader.js';
-import { DotScreenShader } from '../node_modules/three/examples/jsm/shaders/DotScreenShader.js';
-import { AfterimagePass } from '../node_modules/three/examples/jsm/postprocessing/AfterimagePass.js';
 
 
 async function main() {
@@ -236,14 +230,12 @@ async function main() {
   const treeGrid = [terrainWidth, terrainWidth];
   const minDist = 4;
   const maxDist = 8;
-  const minHeight = 2;
-  const maxHeight = 8;
+  const minHeight = 3;
+  const maxHeight = 6;
   trees.generateTrees(treeGrid, minDist, maxDist, minHeight, maxHeight);
   // const treeSpriteUrl = "resources/textures/tree-sprite.png";
   // trees.generateTreeSprites(treeGrid, minDist, maxDist, minHeight, maxHeight, treeSpriteUrl);
 
-  
-  
 
    /**
     * Add a platform
@@ -269,11 +261,11 @@ async function main() {
 
    const moonLod = new LOD();
    const segmentsAndLengths = [
-     [64, 50 - moonPos[2]],
+     [64, 1 - moonPos[2]],
      [32, 100 - moonPos[2]],
-     [16, 150 - moonPos[2]],
-     [8, 200 - moonPos[2]],
-     [4, 250 - moonPos[2]]
+     [16, 350 - moonPos[2]],
+     [8, 450 - moonPos[2]],
+     [4, 750 - moonPos[2]]
    ]
 
    for(let i = 0; i < segmentsAndLengths.length; i++){
