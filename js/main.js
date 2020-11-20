@@ -30,15 +30,15 @@ import Ocean from "./ocean/Ocean.js";
 import MouseLookController from "./controls/MouseLookController.js";
 import Island from "./terrain/Island.js";
 import Boat from "./objects/boat.js";
-import Clouds from "./objects/Clouds.js";
+// import Clouds from "./objects/Clouds.js";
+import Cloud from "./objects/Cloud.js";
 import Trees from "./objects/Trees.js";
 import Rocket from "./objects/Rocket.js";
 import LaunchPlatform from "./objects/LaunchPlatform.js";
 import Moon from "./objects/Moon.js";
-import {EffectComposer} from "../node_modules/three/examples/jsm/postprocessing/EffectComposer.js"
-import { RenderPass } from '../node_modules/three/examples/jsm/postprocessing/RenderPass.js';
-import { GlitchPass } from '../node_modules/three/examples/jsm/postprocessing/GlitchPass.js';
-
+import { EffectComposer } from "../node_modules/three/examples/jsm/postprocessing/EffectComposer.js";
+import { RenderPass } from "../node_modules/three/examples/jsm/postprocessing/RenderPass.js";
+import { GlitchPass } from "../node_modules/three/examples/jsm/postprocessing/GlitchPass.js";
 
 async function main() {
   const scene = new Scene();
@@ -62,7 +62,6 @@ async function main() {
   camera.position.y = 60;
   camera.rotation.x -= Math.PI * 0.1;
 
-  
   /**
    * Initialize renderer
    */
@@ -91,16 +90,16 @@ async function main() {
 
   /**
    * Add skybox
-  */
- const skyLoader = new CubeTextureLoader();
- const texture = skyLoader.load([
-        'resources/skybox/right.jpg',
-        'resources/skybox/left.jpg',
-        'resources/skybox/top.jpg',
-        'resources/skybox/bottom.jpg',
-        'resources/skybox/front.jpg',
-        'resources/skybox/back.jpg'
-       ]);
+   */
+  const skyLoader = new CubeTextureLoader();
+  const texture = skyLoader.load([
+    "resources/skybox/right.jpg",
+    "resources/skybox/left.jpg",
+    "resources/skybox/top.jpg",
+    "resources/skybox/bottom.jpg",
+    "resources/skybox/front.jpg",
+    "resources/skybox/back.jpg",
+  ]);
 
   scene.background = texture;
 
@@ -120,7 +119,7 @@ async function main() {
 
   // const hemiLightHelper = new HemisphereLightHelper(hemiLight, 10);
   // scene.add(hemiLightHelper);
-  
+
   /**
    * Add directional light
    */
@@ -149,8 +148,8 @@ async function main() {
   // let dlh = new DirectionalLightHelper(directionalLight, 30, 0x000000);
   // scene.add(dlh);
 
-   directionalLight.target.position.set(0, 20, -10);
-   scene.add(directionalLight.target);
+  directionalLight.target.position.set(0, 20, -10);
+  scene.add(directionalLight.target);
 
   /**
    * Add island terrain
@@ -188,7 +187,12 @@ async function main() {
     terrainSplatMaps.push(Utilities.loadTexture(url))
   );
 
-  const terrain = new Island(heightmapImage, terrainWidth, terrainTextures, terrainSplatMaps);
+  const terrain = new Island(
+    heightmapImage,
+    terrainWidth,
+    terrainTextures,
+    terrainSplatMaps
+  );
 
   scene.add(terrain);
 
@@ -199,16 +203,18 @@ async function main() {
   const ocean = new Ocean(10000, 10000, oceanTextureUrl);
   terrain.add(ocean);
 
-  // /** 
+  // /**
   //  * Add the sky
   //  */
   // const skyClass = new Skyclass(directionalLight);
   // const sky = skyClass.sky;
   // scene.add(sky);
 
-
   //A node for objects to orbit around.
-  const orbitNode = new Mesh(new SphereBufferGeometry(), new MeshBasicMaterial());
+  const orbitNode = new Mesh(
+    new SphereBufferGeometry(),
+    new MeshBasicMaterial()
+  );
   scene.add(orbitNode);
 
   /**
@@ -217,12 +223,30 @@ async function main() {
   const boat = new Boat(orbitNode);
   const boatModelUrl = "resources/models/boat/gltf/boat.glb";
   boat.loadModel(boatModelUrl);
- 
+
   /**
    * Add clouds to the scene.
    */
-  const clouds = new Clouds(scene);
-  clouds.generateBillboardClouds(50);
+ 
+  let numClouds = 100; //louding clouds takes quite a long time, so be careful with this number.
+  let cloudTexture = "resources/textures/cloud.png"
+  let cloudPosX;
+  let cloudPosY;
+  let cloudPosZ;
+  let cloudScalar;
+  let cloud;
+
+  const loader = new TextureLoader();
+  for (let i = 0; i < numClouds; i++) {
+    loader.load(cloudTexture, (texture) => {
+      cloudPosX = Utilities.betweenRandomValues(-2000, 2000);
+      cloudPosY = Utilities.betweenRandomValues(200, 500);
+      cloudPosZ = Utilities.betweenRandomValues(-500, -1000);
+      cloudScalar = Utilities.betweenRandomValues(100, 500)
+      cloud = new Cloud(texture, [cloudPosX, cloudPosY, cloudPosZ], cloudScalar);
+      scene.add(cloud);
+    });
+  }
 
   /**
    * Generate and add trees.
@@ -234,61 +258,67 @@ async function main() {
   const maxDist = 8;
   const minHeight = 3;
   const maxHeight = 6;
-  //trees.generateTrees(treeGrid, minDist, maxDist, minHeight, maxHeight);
+  trees.generateTrees(treeGrid, minDist, maxDist, minHeight, maxHeight);
   // const treeSpriteUrl = "resources/textures/tree-sprite.png";
   // trees.generateTreeSprites(treeGrid, minDist, maxDist, minHeight, maxHeight, treeSpriteUrl);
 
+  /**
+   * Add a platform
+   */
+  const platformTextureUrl = "resources/textures/scratched-steel.jpg";
+  const platformTexture = new TextureLoader().load(platformTextureUrl);
+  const platformXpos = -105;
+  const platformZpos = 15;
+  const platform = new LaunchPlatform(
+    scene,
+    terrain.geometry,
+    platformTexture,
+    platformXpos,
+    platformZpos
+  );
+  scene.add(platform);
+  platform.generatePlatformLegs();
 
-   /**
-    * Add a platform
-    */
-   const platformTextureUrl = "resources/textures/scratched-steel.jpg";
-   const platformTexture = new TextureLoader().load(platformTextureUrl);
-   const platformXpos = -105;
-   const platformZpos = 15;
-   const platform = new LaunchPlatform(scene, terrain.geometry, platformTexture, platformXpos, platformZpos);
-   scene.add(platform);
-   platform.generatePlatformLegs();
+  /**
+   * Add moon to the scene using LOD
+   */
+  const moonTextureUrl = "resources/textures/moon/texture.jpg";
+  const moonTexture = new TextureLoader().load(moonTextureUrl);
+  const bumpMapUrl = "resources/textures/moon/bump_map.jpg";
+  const bumpMap = new TextureLoader().load(bumpMapUrl);
 
-   /**
-    * Add moon to the scene using LOD
-    */
-   const moonTextureUrl = "resources/textures/moon/texture.jpg";
-   const moonTexture = new TextureLoader().load(moonTextureUrl);
-   const bumpMapUrl = "resources/textures/moon/bump_map.jpg";
-   const bumpMap = new TextureLoader().load(bumpMapUrl);
+  const moonRadius = 100;
+  const moonPos = [36, 725, -553];
 
-   const moonRadius = 100;
-   const moonPos = [36, 725, -553];
+  const moonLod = new LOD();
+  const segmentsAndLengths = [
+    [64, 1 - moonPos[2]],
+    [32, 100 - moonPos[2]],
+    [16, 350 - moonPos[2]],
+    [8, 450 - moonPos[2]],
+    [4, 750 - moonPos[2]],
+  ];
 
-   const moonLod = new LOD();
-   const segmentsAndLengths = [
-     [64, 1 - moonPos[2]],
-     [32, 100 - moonPos[2]],
-     [16, 350 - moonPos[2]],
-     [8, 450 - moonPos[2]],
-     [4, 750 - moonPos[2]]
-   ]
-
-   for(let i = 0; i < segmentsAndLengths.length; i++){
-     const segments = segmentsAndLengths[i][0]
-     const moonMesh = new Moon({
+  for (let i = 0; i < segmentsAndLengths.length; i++) {
+    const segments = segmentsAndLengths[i][0];
+    const moonMesh = new Moon({
       texture: moonTexture,
       radius: moonRadius,
-      widthSegments:segments, 
+      widthSegments: segments,
       heightSegments: segments,
       positions: moonPos,
       bumpMap: bumpMap,
-     })
-     moonLod.addLevel(moonMesh, segmentsAndLengths[i][1]);
-   }
+    });
+    moonLod.addLevel(moonMesh, segmentsAndLengths[i][1]);
+  }
 
-   scene.add(moonLod);
+  scene.add(moonLod);
 
-   /**
+  /**
    * Add rocket to the scene
    */
-  const rocketModelUrl = "resources/models/Space_Rocket_SaturnV/SaturnV/3d-files/saturn-rocket.glb";
+  const rocketModelUrl =
+    "resources/models/Space_Rocket_SaturnV/SaturnV/3d-files/saturn-rocket.glb";
   const rocket = new Rocket(platform);
   rocket.generateModel(rocketModelUrl);
 
@@ -370,14 +400,11 @@ async function main() {
   let splineIndex = 0;
   let reachedTop = false;
 
-  const composer = new EffectComposer( renderer );
-  composer.addPass(new RenderPass( scene, camera ));
-
+  const composer = new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene, camera));
 
   const glitchPass = new GlitchPass();
-  composer.addPass(glitchPass)
-
-
+  composer.addPass(glitchPass);
 
   function loop(now) {
     const delta = now - then;
@@ -413,23 +440,22 @@ async function main() {
     camera.position.add(velocity);
 
     //Make the rocket flyyyy
-    if(rocket.model){
-
-      if(!reachedTop){
+    if (rocket.model) {
+      if (!reachedTop) {
         splineIndex++;
-      }else {
+      } else {
         splineIndex--;
       }
-      if(splineIndex > 1100){
+      if (splineIndex > 1100) {
         reachedTop = true;
       }
-      if(splineIndex <= 0){
+      if (splineIndex <= 0) {
         reachedTop = false;
       }
-      rocket.animate(splineIndex/1000);
+      rocket.animate(splineIndex / 10000);
     }
 
-    moonLod.children.forEach(m => m.rotateMoon([0.0, 0.0025, 0.0]))
+    moonLod.children.forEach((m) => m.rotateMoon([0.0, 0.0025, 0.0]));
 
     //Animate the ocean
     ocean.animateOcean();
@@ -441,13 +467,13 @@ async function main() {
     // moon.rotateMoon([0.0, 0.0025, 0.0]);
 
     // render scene:
-    if(glitch){
-      composer.render()
-    }else {
+    if (glitch) {
+      composer.render();
+    } else {
       renderer.render(scene, camera);
     }
-    if(splineIndex > 100){
-      glitch = false
+    if (splineIndex > 100) {
+      glitch = false;
     }
 
     //animate launch platform
@@ -458,6 +484,5 @@ async function main() {
 
   loop(performance.now());
 }
-
 
 main(); // Start
