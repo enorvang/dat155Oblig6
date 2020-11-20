@@ -12,15 +12,13 @@ export default class Island extends Mesh{
       numberOfSubdivisions: 128,
       height: 30,
     });
-    const material = new TextureSplattingMaterial({
+    let material = new TextureSplattingMaterial({
       color: 0xffffff,
       shininess: 0,
       textures: textures,
       splatMaps: splatmaps,
     });
-    // const material = new MeshPhongMaterial({
-    //   map: textures[1],
-    // }) 
+
 
     super(geometry, material);
     this.castShadow = true;

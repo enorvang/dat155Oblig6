@@ -234,7 +234,7 @@ async function main() {
   const maxDist = 8;
   const minHeight = 3;
   const maxHeight = 6;
-  trees.generateTrees(treeGrid, minDist, maxDist, minHeight, maxHeight);
+  //trees.generateTrees(treeGrid, minDist, maxDist, minHeight, maxHeight);
   // const treeSpriteUrl = "resources/textures/tree-sprite.png";
   // trees.generateTreeSprites(treeGrid, minDist, maxDist, minHeight, maxHeight, treeSpriteUrl);
 
@@ -449,6 +449,9 @@ async function main() {
     if(splineIndex > 100){
       glitch = false
     }
+
+    //animate launch platform
+    platform.animate(delta);
 
     requestAnimationFrame(loop);
   }
