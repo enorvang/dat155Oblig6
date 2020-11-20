@@ -1,6 +1,6 @@
 "use strict";
 
-import {  Mesh, MeshPhongMaterial } from "../lib/three.module.js";
+import {  Mesh } from "../lib/three.module.js";
 import TextureSplattingMaterial from "../materials/TextureSplattingMaterial.js";
 import TerrainBufferGeometry from "./TerrainBufferGeometry.js";
 

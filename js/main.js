@@ -7,30 +7,19 @@ import {
   Scene,
   DirectionalLight,
   Vector3,
-  AxesHelper,
   HemisphereLight,
-  DirectionalLightHelper,
-  HemisphereLightHelper,
   MeshBasicMaterial,
   Mesh,
   SphereBufferGeometry,
-  FogExp2,
   TextureLoader,
   CubeTextureLoader,
-  Vector4,
-  Box3,
-  Raycaster,
-  ObjectSpaceNormalMap,
-  Vector2,
-  LOD,
-  Fog,
+  LOD
 } from "./lib/three.module.js";
 import Utilities from "./lib/Utilities.js";
 import Ocean from "./ocean/Ocean.js";
 import MouseLookController from "./controls/MouseLookController.js";
 import Island from "./terrain/Island.js";
 import Boat from "./objects/boat.js";
-// import Clouds from "./objects/Clouds.js";
 import Cloud from "./objects/Cloud.js";
 import Trees from "./objects/Trees.js";
 import Rocket from "./objects/Rocket.js";
@@ -42,13 +31,6 @@ import { GlitchPass } from "../node_modules/three/examples/jsm/postprocessing/Gl
 
 async function main() {
   const scene = new Scene();
-
-  // const axesHelper = new AxesHelper(35);
-  // axesHelper.position.y = 25;
-  // scene.add(axesHelper);
-
-  // scene.fog = new FogExp2(0x808080, 0.0065);
-  // scene.fog = new Fog(0x808080, 0.1, 200);
 
   /**
    * Initialize the camera
@@ -117,9 +99,6 @@ async function main() {
   hemiLight.position.set(0, 100, 0);
   scene.add(hemiLight);
 
-  // const hemiLightHelper = new HemisphereLightHelper(hemiLight, 10);
-  // scene.add(hemiLightHelper);
-
   /**
    * Add directional light
    */
@@ -145,9 +124,6 @@ async function main() {
   directionalLight.shadow.camera.top = d;
   directionalLight.shadow.camera.bottom = -d;
 
-  // let dlh = new DirectionalLightHelper(directionalLight, 30, 0x000000);
-  // scene.add(dlh);
-
   directionalLight.target.position.set(0, 20, -10);
   scene.add(directionalLight.target);
 
@@ -156,7 +132,6 @@ async function main() {
    */
   const heightmapImage = await Utilities.loadImage(
     "resources/images/heightmaps/mask_with_height.png"
-    // "resources/images/heightmaps/noise_combined.png"
   );
   const terrainWidth = 300;
 
@@ -203,12 +178,6 @@ async function main() {
   const ocean = new Ocean(10000, 10000, oceanTextureUrl);
   terrain.add(ocean);
 
-  // /**
-  //  * Add the sky
-  //  */
-  // const skyClass = new Skyclass(directionalLight);
-  // const sky = skyClass.sky;
-  // scene.add(sky);
 
   //A node for objects to orbit around.
   const orbitNode = new Mesh(
@@ -259,8 +228,6 @@ async function main() {
   const minHeight = 3;
   const maxHeight = 6;
   trees.generateTrees(treeGrid, minDist, maxDist, minHeight, maxHeight);
-  // const treeSpriteUrl = "resources/textures/tree-sprite.png";
-  // trees.generateTreeSprites(treeGrid, minDist, maxDist, minHeight, maxHeight, treeSpriteUrl);
 
   /**
    * Add a platform

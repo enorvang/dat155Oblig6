@@ -4,12 +4,7 @@ import {
   BoxBufferGeometry,
   CylinderBufferGeometry,
   Mesh,
-  MeshPhongMaterial,
-  RepeatWrapping,
-  ShaderMaterial,
   TextureLoader,
-  Vector2,
-  Vector3,
 } from "../lib/three.module.js";
 import LavaMaterial from "../materials/LavaMaterial.js";
 

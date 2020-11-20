@@ -21,7 +21,7 @@ export default class Trees {
   }
 
   /**
-   * The PoissonDiskSampling is licensed by MIT. Borrowed from the internet!
+   * The PoissonDiskSampling is MIT-licensed. Borrowed from the internet!
    * A method to generate trees using Poisson Disk Sampling.
    * The function will attempt to generate trees within the grid as long as the height is accepted.
    * @param {Array} grid size of the grid in which to generate trees in.
