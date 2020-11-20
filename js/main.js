@@ -228,7 +228,7 @@ async function main() {
    * Add clouds to the scene.
    */
  
-  let numClouds = 100; //louding clouds takes quite a long time, so be careful with this number.
+  let numClouds = 30; //louding clouds takes quite a long time, so be careful with this number.
   let cloudTexture = "resources/textures/cloud.png"
   let cloudPosX;
   let cloudPosY;
